@@ -1,21 +1,48 @@
 ## Medical
 
-## 🩺 MediBot – Medical Chatbot Setup Guide
+# 🩺 MediBot – AI-Powered Medical Chatbot
 
-### 🚀 How to Run the Project
+**MediBot** is an intelligent medical assistant powered by OpenAI’s GPT models, LangChain, and Pinecone. It is designed to answer health-related queries with context awareness, combining AI with medical domain knowledge.
+
+Whether you're building a telemedicine platform, health education tool, or just experimenting with LLMs in healthcare — MediBot is your starting point.
 
 ---
 
-### 📦 Step 1: Clone the Repository
+## 🚀 Features
+
+- 💬 **Chat with GPT**: Ask medical questions, get intelligent answers.
+- 📚 **Contextual Search**: Uses vector embeddings and Pinecone to retrieve relevant context before generating a response.
+- 🧠 **Smart Embeddings**: Converts medical docs into searchable vector space.
+- 🌐 **Web Interface**: Flask-powered local server for easy interaction.
+- ☁️ **CI/CD-Ready Deployment**: Easily deploy to AWS using Docker and GitHub Actions.
+
+---
+
+## 🧪 Tech Stack
+
+- **Python 3.10**
+- **OpenAI GPT-4 / GPT-3.5**
+- **LangChain**
+- **Pinecone** (Vector DB)
+- **Flask**
+- **Docker**
+- **GitHub Actions**
+- **AWS EC2 + ECR**
+
+---
+
+## 💻 Local Setup
+
+### 1️⃣ Clone the Repository
 
 ```bash
 git clone https://github.com/your-username/medibot.git
 cd medibot
-```
+````
 
 ---
 
-### 🐍 Step 2: Set Up the Conda Environment
+### 2️⃣ Create Conda Environment
 
 ```bash
 conda create -n medibot python=3.10 -y
@@ -24,7 +51,7 @@ conda activate medibot
 
 ---
 
-### 📦 Step 3: Install Dependencies
+### 3️⃣ Install Requirements
 
 ```bash
 pip install -r requirements.txt
@@ -32,18 +59,18 @@ pip install -r requirements.txt
 
 ---
 
-### 🔐 Step 4: Add Environment Variables
+### 4️⃣ Add Environment Variables
 
-Create a `.env` file in the root directory with the following content:
+Create a `.env` file in the root directory and add:
 
-```
-PINECONE_API_KEY=your-pinecone-api-key
-OPENAI_API_KEY=your-openai-api-key
+```env
+PINECONE_API_KEY=your_pinecone_api_key
+OPENAI_API_KEY=your_openai_api_key
 ```
 
 ---
 
-### 🧠 Step 5: Generate Embeddings
+### 5️⃣ Index the Knowledge Base
 
 ```bash
 python store_index.py
@@ -51,106 +78,88 @@ python store_index.py
 
 ---
 
-### 💬 Step 6: Run the App
+### 6️⃣ Run the Application
 
 ```bash
 python app.py
 ```
 
-Now, open your browser and visit:
-
-```
-http://localhost:5000
-```
+Go to `http://localhost:5000` to start chatting with MediBot.
 
 ---
 
-## 🛠️ Tech Stack
+## 🐳 Docker (Optional)
 
-* **Python**
-* **LangChain**
-* **Flask**
-* **OpenAI GPT**
-* **Pinecone**
-* **AWS Deployment via GitHub Actions**
-
----
-
-## ☁️ AWS Deployment Instructions (CI/CD)
-
----
-
-### 1️⃣ Set Up AWS IAM
-
-* Go to AWS Console
-* Create a new IAM user for deployment
-* Attach the following policies:
-
-```text
-AmazonEC2FullAccess
-AmazonEC2ContainerRegistryFullAccess
-```
-
----
-
-### 2️⃣ Create an ECR Repository
-
-* Save the URI (Example):
-
-  ```
-  315865595366.dkr.ecr.us-east-1.amazonaws.com/medibot
-  ```
-
----
-
-### 3️⃣ Launch EC2 Instance (Ubuntu)
-
-* SSH into your EC2
-* Install Docker:
+To run MediBot inside a Docker container:
 
 ```bash
-sudo apt-get update -y
-sudo apt-get upgrade -y
-
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
-
-sudo usermod -aG docker ubuntu
-newgrp docker
+docker build -t medibot .
+docker run -p 5000:5000 medibot
 ```
 
 ---
 
-### 4️⃣ Set Up EC2 as GitHub Runner
+## ☁️ AWS Deployment (Optional)
 
-* In your GitHub repo:
+You can deploy MediBot to AWS using GitHub Actions and Docker. This includes:
 
-  ```
-  Settings > Actions > Runners > New self-hosted runner
-  ```
-* Choose OS (Ubuntu) and follow setup commands provided
-
----
-
-### 5️⃣ Configure GitHub Secrets
-
-Add the following secrets to your GitHub repo:
-
-| Key                     | Value                    |
-| ----------------------- | ------------------------ |
-| `AWS_ACCESS_KEY_ID`     | Your IAM user access key |
-| `AWS_SECRET_ACCESS_KEY` | Your IAM user secret     |
-| `AWS_DEFAULT_REGION`    | e.g., `us-east-1`        |
-| `ECR_REPO`              | Your ECR URI             |
-| `PINECONE_API_KEY`      | Your Pinecone API key    |
-| `OPENAI_API_KEY`        | Your OpenAI API key      |
+1. Building and pushing Docker image to **AWS ECR**
+2. Launching an **EC2** instance
+3. Pulling and running the container in EC2
+4. Automating this with **GitHub Actions**
 
 ---
 
-## ✅ Deployment Steps
+### 🔐 Required GitHub Secrets
 
-1. Build Docker image for the project
-2. Push the image to AWS ECR
-3. Launch EC2 instance
-4. Pull Docker image from ECR to EC2
-5. Run the container
+| Name                    | Description           |
+| ----------------------- | --------------------- |
+| `AWS_ACCESS_KEY_ID`     | IAM access key        |
+| `AWS_SECRET_ACCESS_KEY` | IAM secret key        |
+| `AWS_DEFAULT_REGION`    | e.g. `us-east-1`      |
+| `ECR_REPO`              | Your AWS ECR repo URI |
+| `PINECONE_API_KEY`      | Pinecone API key      |
+| `OPENAI_API_KEY`        | OpenAI API key        |
+
+---
+
+## 📸 Screenshots
+
+> *Add screenshots of your chatbot interface here to show how it works visually.*
+
+---
+
+## 🔮 Roadmap
+
+* Add memory for user conversation history
+* Integrate authentication system
+* Dashboard for viewing logs or user questions
+* Voice assistant capabilities
+* Connect with EHR systems or health APIs
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Here's how:
+
+1. Fork the repository
+2. Create a new branch: `git checkout -b feature/your-feature`
+3. Commit your changes: `git commit -m 'Add new feature'`
+4. Push to the branch: `git push origin feature/your-feature`
+5. Submit a pull request
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
+
+---
+
+## 📬 Contact
+
+For any questions, feedback, or collaborations, feel free to reach out:
+
+📧 **[nileshshendkar2005@gmail.com](mailto:nileshshendkar2005@gmail.com)**
+
